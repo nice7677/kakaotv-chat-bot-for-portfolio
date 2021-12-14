@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>탕뚝 - 카카오티비 챗봇</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container" style="margin-bottom: 10rem;">
+    <div class="row" style="margin-top: 3rem; margin-bottom: 3rem; font-size: 5rem;">
+        <div class="col-12 text-center">
+            탕뚝
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div style="width: 50%; margin: auto;" class="">
+
+                <div style="font-size: 2rem;">
+                    본인 선택 & 롤 아이디 등록
+                </div>
+                <div class="form-group">
+                    <select name="pd" id="pd-list" class="custom-select">
+                        <option value="" selected>선택해주세요</option>
+                    </select>
+                    <small id="emailHelp" class="form-text text-muted">본인을 선택해 주세요.</small>
+                </div>
+                <input type="text" value="" class="form-control lolid"
+                       style="margin-top: 0.5rem;">
+                <small id="emailHelp" class="form-text text-muted" style="margin-bottom: 1rem;">롤 아이디를 입력해 주세요.</small>
+
+                <button class="btn btn-secondary useridbtn" style="width: 100%">
+                    본인 & 롤 아이디 등록
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-12">
+            <div style="width: 50%; margin: auto;" class="">
+                <div style="font-size: 2rem;">
+                    탕뚝에 사용할 명령어 등록
+                </div>
+                명령어
+                <input type="text" placeholder="나이" class="form-control function"
+                       style="margin-top: 0.5rem; margin-bottom: 1rem;">
+                기능
+                <input type="text" placeholder="30살" class="form-control dab"
+                       style="margin-top: 0.5rem; margin-bottom: 1rem;">
+                <button class="btn btn-secondary instructionBtn" style="width: 100%">
+                    명령어 등록
+                </button>
+                <div>
+                    명령어 목록
+                    <div class="instructionList">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-12">
+            <div style="width: 50%; margin: auto;" class="">
+                <div style="font-size: 2rem;">
+                    명령어 삭제
+                </div>
+                명령어
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control InstDeleteInput" placeholder="ex)나이, 나이, 나이" aria-label="" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary deleteInstBtn" type="button" id="button-addon2">명령어 삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-12">
+            <div style="width: 50%; margin: auto;" class="">
+                <div style="font-size: 2rem;">
+                    탕뚝에 사용할 금지어 등록
+                </div>
+                <input type="text" placeholder="ex)시발,병신,장애인" class="form-control noword"
+                       style="margin-top: 0.5rem; margin-bottom: 1rem;">
+
+                <button class="btn btn-secondary nowordbtn" style="width: 100%">
+                    금지어 등록
+                </button>
+                <div>
+                    금지어 목록
+                    <div class="nowordList">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem;">
+        <div class="col-12">
+            <div style="width: 50%; margin: auto;" class="">
+                <div style="font-size: 2rem;">
+                    금지어 삭제
+                </div>
+                금지어
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control NowordDeleteInput" placeholder="ex)시발,병신" aria-label="" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary deleteNowordBtn" type="button" id="button-addon2">금지어 삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(".container").hide()
+    $.ajax({
+        url: '/restricted',
+        type: 'get',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("token"));
+        },
+        success: function (result) {
+            console.log(result)
+            $(".container").show()
+        },
+        error: function (error) {
+            console.log(error)
+            alert("로그인 페이지로 이동합니다.")
+            location.href = "/";
+        }
+    })
+
+    $(function () {
+
+        $.ajax({
+            url: '/instruction',
+            type: 'get',
+            success: function (result) {
+                for (let i = 0; i < result.length; i++) {
+                    $(".instructionList").append(result[i].function + ", ")
+                }
+            }
+        })
+
+        $.ajax({
+            url: '/noword',
+            type: 'get',
+            success: function (result) {
+                for (let i = 0; i < result.length; i++) {
+                    $(".nowordList").append(result[i].word + ", ")
+                }
+            }
+        })
+
+        // $.ajax({
+        //     url: '/pd-user-id',
+        //     type: 'get',
+        //     success: function (result) {
+        //         if (localStorage.getItem('pd-user-id') === null){
+        //             localStorage.setItem("pd-user-id", result)
+        //         }
+        //         $(".useridinput").val(localStorage.getItem('pd-user-id'))
+        //     }
+        // })
+
+        $.ajax({
+            url: '/pd-list',
+            type: 'get',
+            success: function (result) {
+                console.log(result)
+                for (let i = 0; i < result.length; i++) {
+                    var option = $("<option value='" + result[i].user_id +"'>" + result[i].name + "</option>");
+                    $('#pd-list').append(option);
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+
+        $(".deleteInstBtn").on('click', function () {
+
+            var formData = new FormData();
+            formData.append("function", $(".InstDeleteInput").val());
+
+            $.ajax({
+                url: '/instruct',
+                type: 'delete',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result)
+                    alert(result);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+
+        $(".deleteNowordBtn").on('click', function () {
+
+            var formData = new FormData();
+            formData.append("word", $(".NowordDeleteInput").val());
+
+            $.ajax({
+                url: '/noword',
+                type: 'delete',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result)
+                    alert(result);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+
+        $(".useridbtn").on('click', function () {
+
+            var formData = new FormData();
+            // formData.append("userid", $(".useridinput").val());
+            formData.append("lolid", $(".lolid").val());
+            formData.append("userid", $("#pd-list option:selected").val());
+
+
+            $.ajax({
+                url: '/user-info',
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result)
+                    alert(result);
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+
+        $(".instructionBtn").on('click', function () {
+
+            var formData = new FormData();
+            formData.append("function", $(".function").val());
+            formData.append("dab", $(".dab").val());
+
+            $.ajax({
+                url: '/instruction',
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result)
+                    alert(result);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+        $(".nowordbtn").on('click', function () {
+
+            var formData = new FormData();
+            formData.append("noword", $(".noword").val());
+            formData.append("pd-user-id", $("#pd-list option:selected").val());
+
+            $.ajax({
+                url: '/noword',
+                type: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result)
+                    alert(result);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+        })
+    })
+</script>
+</html>
