@@ -128,13 +128,13 @@ func main() {
 		pw := c.FormValue("pw")
 
 		// Throws unauthorized error
-		if id != "tang" || pw != "tang123!" {
+		if id != "jinwoo" || pw != "123!" {
 			return echo.ErrUnauthorized
 		}
 
 		// Set custom claims
 		claims := &jwtCustomClaims{
-			"탕뚝",
+			"진우챗봇",
 			true,
 			jwt.StandardClaims{
 				ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
@@ -175,12 +175,13 @@ func restricted(c echo.Context) error {
 	return c.String(http.StatusOK, "Welcome "+name+"!")
 }
 
+/// ---------------------------
+// 밑으로는  셀레니움 부분 및 채팅 보내기 및 관리자 권한 부분
+
 //관리자 권한 asmg
 
 // 이성진 그룹아이디 3614183
 // 김치민 그룹아이디 3615649
-// 초코애뭉 그룹아이디 3616534 3616539
-// 초코애뭉 userid 2866299
 
 var (
 	StartTime int64 = 0

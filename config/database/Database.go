@@ -10,16 +10,15 @@ func Connect() *pg.DB {
 
 	db := pg.Connect(&pg.Options{
 		User:     "postgres",
-		Password: "",
+		Password: "1q2w3e4r",
 		Database: "postgres",
-		Addr:     ":5432",
+		Addr:     ":4321",
 	})
 
 	if db == nil {
 		log.Println("DB 연결 실패")
-	}
-	else {
-		log.Println("DB 연결 성공")
+	} else {
+		//log.Println("DB 연결 성공")
 	}
 
 	///////////////////////////////////////
@@ -36,8 +35,7 @@ func Close(db *pg.DB) {
 	if closeErr != nil {
 		log.Println("연결 종료 실패 : ", closeErr)
 		os.Exit(100)
-	}
-	else {
-		log.Println("DB 연결 종료")
+	} else {
+		//log.Println("DB 연결 종료")
 	}
 }
